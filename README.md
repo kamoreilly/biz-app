@@ -1,6 +1,6 @@
 # biz-app
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines Next.js, Hono, tRPC, and more.
+This project was created with a modern TypeScript stack that combines Next.js, Hono, tRPC, and more.
 
 ## Features
 
