@@ -5,7 +5,7 @@
 
 @theme {
 	--font-sans:
-		"Inter", "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+		var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
 		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
@@ -23,14 +23,14 @@ body {
 }
 
 :root {
-	--radius: 0.625rem;
+	--radius: 0.5rem; /* 8px border radius as specified */
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.145 0 0);
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
+	--primary: oklch(0.59 0.149 252.85); /* #3B82F6 - Primary Blue */
 	--primary-foreground: oklch(0.985 0 0);
 	--secondary: oklch(0.97 0 0);
 	--secondary-foreground: oklch(0.205 0 0);
@@ -38,7 +38,9 @@ body {
 	--muted-foreground: oklch(0.556 0 0);
 	--accent: oklch(0.97 0 0);
 	--accent-foreground: oklch(0.205 0 0);
-	--destructive: oklch(0.577 0.245 27.325);
+	--destructive: oklch(0.628 0.258 29.234); /* #EF4444 - Error Red */
+	--success: oklch(0.7 0.13 164.25); /* #10B981 - Success Green */
+	--warning: oklch(0.768 0.171 70.67); /* #F59E0B - Warning Amber */
 	--border: oklch(0.922 0 0);
 	--input: oklch(0.922 0 0);
 	--ring: oklch(0.708 0 0);
@@ -134,6 +136,20 @@ body {
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground;
+		@apply bg-background text-foreground font-normal;
+	}
+
+	/* Typography hierarchy according to design system */
+	h1, h2, h3, h4, h5, h6 {
+		@apply font-bold;
+	}
+
+	p, div, span {
+		@apply font-normal;
+	}
+
+	/* Ensure buttons and labels use medium weight */
+	button, label {
+		@apply font-medium;
 	}
 }

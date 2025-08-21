@@ -10,7 +10,10 @@ export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	
 	const navigationLinks = [
+		{ to: "/#value-propositions", label: "Solutions" },
 		{ to: "/#features", label: "Features" },
+		{ to: "/#target-market", label: "Industries" },
+		{ to: "/#success-metrics", label: "Results" },
 		{ to: "/#testimonials", label: "Testimonials" },
 		{ to: "/dashboard", label: "Dashboard" },
 	];
