@@ -36,7 +36,18 @@ export default function SignInForm({
 						toast.success("Welcome back! You've been signed in successfully.");
 					},
 					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
+						let errorMessage = error.error.message || error.error.statusText;
+						
+						// Handle specific error cases
+						if (error.error.statusCode === 401) {
+							errorMessage = "Invalid email or password";
+						} else if (error.error.statusCode === 429) {
+							errorMessage = "Too many failed attempts. Please try again in 15 minutes.";
+						} else if (error.error.statusCode === 423) {
+							errorMessage = "Account locked due to too many failed attempts. Please try again later.";
+						}
+						
+						toast.error(errorMessage);
 					},
 				},
 			);

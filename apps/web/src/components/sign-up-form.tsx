@@ -38,7 +38,18 @@ export default function SignUpForm({
 						toast.success("Welcome to Biz-App! Your account has been created successfully.");
 					},
 					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
+						let errorMessage = error.error.message || error.error.statusText;
+						
+						// Handle specific error cases
+						if (error.error.statusCode === 409) {
+							errorMessage = "An account with this email already exists.";
+						} else if (error.error.statusCode === 400) {
+							if (error.error.message?.includes("password")) {
+								errorMessage = "Password does not meet complexity requirements.";
+							}
+						}
+						
+						toast.error(errorMessage);
 					},
 				},
 			);
@@ -47,7 +58,11 @@ export default function SignUpForm({
 			onSubmit: z.object({
 				name: z.string().min(2, "Name must be at least 2 characters"),
 				email: z.email("Invalid email address"),
-				password: z.string().min(8, "Password must be at least 8 characters"),
+				password: z.string()
+					.min(8, "Password must be at least 8 characters")
+					.regex(/[a-z]/, "Password must contain at least one lowercase letter")
+					.regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+					.regex(/[0-9]/, "Password must contain at least one number"),
 			}),
 		},
 	});
@@ -146,9 +161,23 @@ export default function SignUpForm({
 										{error?.message}
 									</p>
 								))}
-								<p className="text-xs text-gray-500 dark:text-gray-400">
-									Must be at least 8 characters long
-								</p>
+								<div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+									<p>Password requirements:</p>
+									<ul className="list-disc list-inside space-y-0.5">
+										<li className={field.state.value.length >= 8 ? "text-green-600" : ""}>
+											At least 8 characters
+										</li>
+										<li className={/[a-z]/.test(field.state.value) ? "text-green-600" : ""}>
+											One lowercase letter
+										</li>
+										<li className={/[A-Z]/.test(field.state.value) ? "text-green-600" : ""}>
+											One uppercase letter
+										</li>
+										<li className={/[0-9]/.test(field.state.value) ? "text-green-600" : ""}>
+											One number
+										</li>
+									</ul>
+								</div>
 							</div>
 						)}
 					</form.Field>
