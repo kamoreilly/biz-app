@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npm run:*)",
+      "Bash(bun run lint:*)",
+      "Bash(bun run:*)",
+      "Bash(npx eslint:*)",
+      "Bash(timeout 60 bun run lint)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

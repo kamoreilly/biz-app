@@ -7,11 +7,14 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useRouter } from "next/navigation";
+import AuthLayout from "./auth-layout";
+import AuthBenefits from "./auth-benefits";
+import Link from "next/link";
 
 export default function SignUpForm({
 	onSwitchToSignIn,
 }: {
-	onSwitchToSignIn: () => void;
+	onSwitchToSignIn?: () => void;
 }) {
 	const router = useRouter();
 	const { isPending } = authClient.useSession();
@@ -32,7 +35,7 @@ export default function SignUpForm({
 				{
 					onSuccess: () => {
 						router.push("/dashboard");
-						toast.success("Sign up successful");
+						toast.success("Welcome to Biz-App! Your account has been created successfully.");
 					},
 					onError: (error) => {
 						toast.error(error.error.message || error.error.statusText);
@@ -50,84 +53,102 @@ export default function SignUpForm({
 	});
 
 	if (isPending) {
-		return <Loader />;
+		return (
+			<AuthLayout title="Creating Your Account" subtitle="Please wait while we set up your business management platform">
+				<div className="flex justify-center py-8">
+					<Loader />
+				</div>
+			</AuthLayout>
+		);
 	}
 
 	return (
-		<div className="mx-auto w-full mt-10 max-w-md p-6">
-			<h1 className="mb-6 text-center text-3xl font-bold">Create Account</h1>
-
+		<AuthLayout
+			title="Start Your Free Trial"
+			subtitle="Join thousands of small businesses growing with Biz-App"
+		>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 					form.handleSubmit();
 				}}
-				className="space-y-4"
+				className="space-y-6"
 			>
-				<div>
+				<div className="space-y-5">
 					<form.Field name="name">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Name</Label>
+								<Label htmlFor={field.name} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+									Full Name
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
+									placeholder="Enter your full name"
 									value={field.state.value}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
+									className="h-11"
 								/>
 								{field.state.meta.errors.map((error) => (
-									<p key={error?.message} className="text-red-500">
+									<p key={error?.message} className="text-sm text-red-600 dark:text-red-400">
 										{error?.message}
 									</p>
 								))}
 							</div>
 						)}
 					</form.Field>
-				</div>
 
-				<div>
 					<form.Field name="email">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Email</Label>
+								<Label htmlFor={field.name} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+									Business Email
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
 									type="email"
+									placeholder="you@yourbusiness.com"
 									value={field.state.value}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
+									className="h-11"
 								/>
 								{field.state.meta.errors.map((error) => (
-									<p key={error?.message} className="text-red-500">
+									<p key={error?.message} className="text-sm text-red-600 dark:text-red-400">
 										{error?.message}
 									</p>
 								))}
 							</div>
 						)}
 					</form.Field>
-				</div>
 
-				<div>
 					<form.Field name="password">
 						{(field) => (
 							<div className="space-y-2">
-								<Label htmlFor={field.name}>Password</Label>
+								<Label htmlFor={field.name} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+									Password
+								</Label>
 								<Input
 									id={field.name}
 									name={field.name}
 									type="password"
+									placeholder="Create a secure password"
 									value={field.state.value}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
+									className="h-11"
 								/>
 								{field.state.meta.errors.map((error) => (
-									<p key={error?.message} className="text-red-500">
+									<p key={error?.message} className="text-sm text-red-600 dark:text-red-400">
 										{error?.message}
 									</p>
 								))}
+								<p className="text-xs text-gray-500 dark:text-gray-400">
+									Must be at least 8 characters long
+								</p>
 							</div>
 						)}
 					</form.Field>
@@ -137,24 +158,64 @@ export default function SignUpForm({
 					{(state) => (
 						<Button
 							type="submit"
-							className="w-full"
+							size="lg"
+							className="w-full h-12 bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-white font-medium"
 							disabled={!state.canSubmit || state.isSubmitting}
 						>
-							{state.isSubmitting ? "Submitting..." : "Sign Up"}
+							{state.isSubmitting ? (
+								<>
+									<svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+										<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+										<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+									</svg>
+									Creating your account...
+								</>
+							) : (
+								"Start Free Trial"
+							)}
 						</Button>
 					)}
 				</form.Subscribe>
 			</form>
 
-			<div className="mt-4 text-center">
-				<Button
-					variant="link"
-					onClick={onSwitchToSignIn}
-					className="text-indigo-600 hover:text-indigo-800"
-				>
-					Already have an account? Sign In
-				</Button>
+			{/* Benefits Section */}
+			<div className="mt-8">
+				<AuthBenefits variant="signup" />
 			</div>
-		</div>
+
+			{/* Sign In Link */}
+			<div className="mt-6 text-center">
+				{onSwitchToSignIn ? (
+					<Button
+						variant="link"
+						onClick={onSwitchToSignIn}
+						className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+					>
+						Already have an account? Sign in
+					</Button>
+				) : (
+					<p className="text-sm text-gray-600 dark:text-gray-400">
+						Already have an account?{" "}
+						<Link href="/login" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+							Sign in
+						</Link>
+					</p>
+				)}
+			</div>
+
+			{/* Terms and Privacy */}
+			<div className="mt-6 text-center">
+				<p className="text-xs text-gray-500 dark:text-gray-400">
+					By creating an account, you agree to our{" "}
+					<Link href="/terms" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+						Terms of Service
+					</Link>{" "}
+					and{" "}
+					<Link href="/privacy" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+						Privacy Policy
+					</Link>
+				</p>
+			</div>
+		</AuthLayout>
 	);
 }

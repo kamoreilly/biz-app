@@ -22,9 +22,14 @@ export default function UserMenu() {
 
 	if (!session) {
 		return (
-			<Button variant="outline" asChild>
-				<Link href="/login">Sign In</Link>
-			</Button>
+			<div className="flex items-center space-x-2">
+				<Button variant="ghost" size="sm" asChild>
+					<Link href="/login">Sign In</Link>
+				</Button>
+				<Button size="sm" asChild className="bg-blue-600 hover:bg-blue-700">
+					<Link href="/signup">Start Free Trial</Link>
+				</Button>
+			</div>
 		);
 	}
 

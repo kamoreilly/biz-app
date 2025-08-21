@@ -15,8 +15,50 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "biz-app",
-	description: "biz-app",
+	title: "Biz-App - Empower Your Small Business Growth",
+	description: "The all-in-one platform that streamlines operations, enhances client relationships, and provides actionable insights for sustainable small business growth. Built specifically for freelancers, consultants, and growing teams.",
+	keywords: [
+		"small business management",
+		"client management",
+		"project tracking",
+		"financial management",
+		"tax analytics",
+		"business intelligence",
+		"freelancer tools",
+		"consultant software",
+		"business automation"
+	],
+	authors: [{ name: "Biz-App Team" }],
+	creator: "Biz-App",
+	publisher: "Biz-App",
+	openGraph: {
+		title: "Biz-App - Empower Your Small Business Growth",
+		description: "The all-in-one platform that streamlines operations, enhances client relationships, and provides actionable insights for sustainable small business growth.",
+		url: "https://biz-app.com",
+		siteName: "Biz-App",
+		type: "website",
+		locale: "en_US",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Biz-App - Empower Your Small Business Growth",
+		description: "The all-in-one platform that streamlines operations, enhances client relationships, and provides actionable insights for sustainable small business growth.",
+		creator: "@bizapp",
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			"max-video-preview": -1,
+			"max-image-preview": "large",
+			"max-snippet": -1,
+		},
+	},
+	verification: {
+		google: "your-google-verification-code",
+	},
 };
 
 export default function RootLayout({

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"📋 Task received - Analyzing complexity to determine if multi-agent-orchestrator is needed\""
+          }
+        ]
+      }
+    ]
+  }
+}
